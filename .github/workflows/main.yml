@@ -1,0 +1,43 @@
+name: Run bot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+
+# Only one bot instance at a time (Telegram rejects two polling bots)
+concurrency:
+  group: telegram-bot
+  cancel-in-progress: false
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Debug files
+        run: |
+          pwd
+          ls -la
+          find . -name "*.py" -not -path "./.git/*"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "python-telegram-bot>=20,<22"
+
+      - name: Compile bot
+        run: python -m py_compile bot_34b565d5.py
+
+      - name: Run bot (stops cleanly after 5h50m)
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: timeout 350m python bot_34b565d5.py || [ $? -eq 124 ]
