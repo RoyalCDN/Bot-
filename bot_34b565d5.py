@@ -16,7 +16,7 @@ from telegram.ext import (
 from yt_dlp import YoutubeDL
 
 
-BOT_TOKEN = os.environ["8744638182:AAHKoWZgZ3SR1c0Rl-oiou84DXxrZ-5ng9M"]
+BOT_TOKEN = os.environ["8744638182:AAGT19BMJhrVzfgw3_sPPHfHfLv24WjykL0"]
 MAX_SIZE = 50 * 1024 * 1024
 URL_RE = re.compile(
     r"https?://(?:[\w-]+\.)?(?:youtube\.com|youtu\.be|tiktok\.com)/\S+"
