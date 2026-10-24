@@ -18,12 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Debug files
-        run: |
-          pwd
-          ls -la
-          find . -name "*.py" -not -path "./.git/*"
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -31,8 +25,10 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
           python -m pip install --upgrade pip
-          pip install "python-telegram-bot>=20,<22"
+          pip install "python-telegram-bot>=20,<22" yt-dlp
 
       - name: Compile bot
         run: python -m py_compile bot_34b565d5.py
